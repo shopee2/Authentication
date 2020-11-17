@@ -1,0 +1,135 @@
+# Link: https://app.swaggerhub.com/apis/NAPATKRUP/Authentication/1.0.0/
+
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: OAuth2 Project SOP
+  description: KMITL Maime-Mainhee-Maicode.
+
+paths:
+  /register/user:
+    post:
+      summary: send user data to User Management
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: "body"
+        name: "body"
+        description: user profile object that want to send to User Management
+        required: true
+        schema:
+          $ref: '#/definitions/UserProfile'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/isSuccess'
+        400:
+          description: invalid input
+          schema:
+            $ref: '#/definitions/isFailed'
+  /register/sale:
+    post:
+      summary: send user data to Sale Management
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: "body"
+        name: "body"
+        description: sale profile object that want to send to Sale Management
+        required: true
+        schema:
+           $ref: '#/definitions/SaleProfile'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/isSuccess'
+        400:
+          description: invalid input
+          schema:
+            $ref: '#/definitions/isFailed'
+          
+definitions:
+  UserProfile:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      profile:
+        type: object
+        properties:
+          firstName:
+            type: string
+          lastName:
+            type: string
+          dateOfBirth:
+            type: object
+            properties:
+              year:
+                type: string
+              month:
+                type: string
+              day:
+                type: string
+          address:
+            type: string
+          phoneNumber:
+            type: string
+          gender:
+            type: string
+            enum:
+            - "male"
+            - "female"
+            - "other"
+  SaleProfile:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      profile:
+        type: object
+        properties:
+          firstName:
+            type: string
+          lastName:
+            type: string
+          email:
+            type: string
+          address:
+            type: string
+          phoneNumber:
+            type: string
+          shopName:
+            type: string
+          detail:
+            type: string
+          shopType:
+            type: string
+  isSuccess:
+    type: object
+    properties:
+      token:
+        type: string
+  isFailed:
+    type: object
+    properties:
+      message:
+        type: string
+
+host: virtserver.swaggerhub.com
+basePath: /NAPATKRUP/Authentication/1.0.0
+schemes:
+ - https
