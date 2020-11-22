@@ -1,4 +1,4 @@
-package org.maimeemaineemaicode.register.Controller;
+package org.maimeemaineemaicode.register.controller;
 
 import org.maimeemaineemaicode.register.bean.Account;
 import org.maimeemaineemaicode.register.bean.DateOfBirth;
@@ -15,10 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/register")
 public class UserRegisterService {
-    @RequestMapping(value="/test", method = RequestMethod.GET)
-    public String test() {
-        return "test";
-    }
 
     @RequestMapping(value="/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public String requestMethod(@RequestBody UserRegisterBody body) {
@@ -42,19 +38,19 @@ public class UserRegisterService {
             // CreateAccount
             String username = body.username;
             String password = body.password;
-            String role = body.role;
+            String role = "Customer";
 
             Account account = new Account(uid, username, password, role);
-            return "Success";
+
+            return "เสร็จสิ้น";
         } else {
-            return "Fail" + isValid;
+            return "เกิดข้อผิดพลาด: " + isValid;
         }
     }
 
     private String validate(UserRegisterBody body) {
         String username = body.username;
         String password = body.password;
-        String role = body.role;
         String firstName = body.firstName;
         String lastName = body.lastName;
         String address = body.address;
@@ -62,44 +58,43 @@ public class UserRegisterService {
         String gender = body.gender;
         String[] DoB = body.dateOfBirth.split("-");
 
-        if (username.length() <= 5) {
-            return "Username length > 5";
-        }
-        if (password.length() <= 5) {
-            return "Password length > 5";
-        }
-
-        List<String> availableRole = new ArrayList<String>();
-        availableRole.add("Customer");
-        availableRole.add("Sale");
-        if (!availableRole.contains(role)) {
-            return "Role not in available";
-        }
-        if (firstName.length() <= 5 && firstName instanceof String) {
-            return "Please input your firstName";
-        }
-        if (lastName.length() <= 5 && lastName instanceof String) {
-            return "Please input your lastName";
-        }
-        if (address.length() <= 20) {
-            return "Address length > 20";
-        }
-        if (phoneNumber.length() <= 10) {
-            return "Address length > 10";
-        }
-
         List<String> availableGender = new ArrayList<String>();
         availableGender.add("male");
         availableGender.add("female");
         availableGender.add("other");
 
-        if (!availableGender.contains(gender)) {
-            return "Gender not in available";
+//        username
+        if (username.length() < 2 || username.length() > 20) return "ชื่อผู้ใช้ต้องมีอักขระ 20 ตัวหรือน้อยกว่า";
+        else if (username == "") return "ชื่อผู้ใช้ไม่สามารถเว้นว่างได้";
+
+//        password
+        if (password.length() < 8) return "รหัสผ่านต้องมี 8 ตัวอักษรขึ้นไป";
+
+//        firstName
+        if (firstName.length() < 2 || firstName.length() > 35) return "ชื่อจริงต้องมีอักขระ 35 ตัวหรือน้อยกว่า";
+        else if (firstName == "") return  "ชื่อไม่สามารถเว้นว่างได้";
+
+//        lastName
+        if (lastName.length() < 2 || lastName.length() > 35) return "นามสกุลต้องมีอักขระ 35 ตัวหรือน้อยกว่า";
+        else if (lastName == "") return  "นามสกุลไม่สามารถเว้นว่างได้";
+
+//        address
+        if (address.length() < 2 || address.length() > 200) return "ที่อยู่ต้องมีอักขระ 200 ตัวหรือน้อยกว่า";
+        else if (address == "") return "ี่อยู่ไม่สามารถเว้นว่างได้";
+
+//        phoneNumber
+        if (phoneNumber.length() < 9 || phoneNumber.length() > 10) return "เบอร์โทรศัพท์ต้องมีตัวเลข 9 หรือ 10 ตัว";
+        else if (phoneNumber == "") return "เบอร์โทรไม่สามารถเว้นว่างได้";
+
+//        gender
+        if (!availableGender.contains(gender)) return "ระบุเพศตามที่กำหนดให้เท่านั้น";
+
+//        DoB
+        if (DoB[0].length() != 4 && (Integer.parseInt(DoB[1]) < 1 || Integer.parseInt(DoB[1]) > 12) &&
+                (Integer.parseInt(DoB[2]) < 1 || Integer.parseInt(DoB[2]) > 31)) {
+            return "วันเกิดไม่ถูกต้อง";
         }
-        if (DoB[0].length() == 4 && (Integer.parseInt(DoB[1]) >= 1 && Integer.parseInt(DoB[1]) <= 12) &&
-                Integer.parseInt(DoB[2]) <= 31) {
-            return "Datetime format error";
-        }
+
         return "Success";
     }
 }
