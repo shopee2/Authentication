@@ -1,4 +1,4 @@
-package org.maimeemaineemaicode.Register.controller;
+package org.maimeemaineemaicode.register.controller;
 
 import java.util.*;
 import org.springframework.boot.SpringApplication;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.json.simple.JSONObject;
+
+import org.maimeemaineemaicode.register.bean.Account;
+import org.maimeemaineemaicode.register.bean.UserProfile;
+import org.maimeemaineemaicode.register.bean.DateOfBirth;
 
 @SpringBootApplication
 @RestController
 public class UserRegisterService extends UserProfile {
-    public static void main(String[] args) {
-        SpringApplication.run(SpringBootService.class, args);
-    }
 
     @RequestMapping(value="/register/user/", method = RequestMethod.POST)
-    public String requestMethod(@RequestBody body) {
+    public String requestMethod(@RequestBody Object body) {
         String isValid = validate(body);
         if (isValid == "Success") {
             String firstName = body.firstName;
@@ -33,14 +33,14 @@ public class UserRegisterService extends UserProfile {
 
 //            CreateUserProfile
             DateOfBirth DoB = new DateOfBirth(DoB[0], DoB[1], DoB[2]);
-            UserProfile = new UserProfile(uid, firstName, lastName, address, phoneNumber, gender, DoB);
+            UserProfile user_p = new UserProfile(0, firstName, lastName, address, phoneNumber, gender, DoB);
 
             String username = body.username;
             String password = body.password;
             String role = body.role;
 
 //            CreateAccount
-            Account = new Account(uid, username, password, role);
+            Account acc_p = new Account(0, username, password, role);
 
             return "Success";
         } else {
@@ -48,7 +48,7 @@ public class UserRegisterService extends UserProfile {
         }
     }
 
-    private String validate(RequestBody body) {
+    private String validate(Object body) {
         String username = body.username;
         String password = body.password;
         String role = body.role;
@@ -57,7 +57,7 @@ public class UserRegisterService extends UserProfile {
         String address = body.address;
         String phoneNumber = body.phoneNumber;
         String gender = body.gender;
-        String DoB = body.dateOfBirth.split("-");
+        List<String> DoB = body.dateOfBirth.split("-");
 
         if (username.length() <= 5) {
             return "Username length > 5";
