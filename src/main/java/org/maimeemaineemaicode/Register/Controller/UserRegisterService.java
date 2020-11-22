@@ -1,15 +1,14 @@
-package org.maimeemaineemaicode.Register.Controller;
+package org.maimeemaineemaicode.register.Controller;
 
-import org.maimeemaineemaicode.Register.bean.Account;
-import org.maimeemaineemaicode.Register.bean.DateOfBirth;
-import org.maimeemaineemaicode.Register.bean.UserProfile;
-import org.maimeemaineemaicode.Register.bean.UserRegisterBody;
+import org.maimeemaineemaicode.register.bean.Account;
+import org.maimeemaineemaicode.register.bean.DateOfBirth;
+import org.maimeemaineemaicode.register.bean.UserProfile;
+import org.maimeemaineemaicode.register.bean.UserRegisterBody;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,13 +39,12 @@ public class UserRegisterService {
             DateOfBirth dateOfBirth = new DateOfBirth(DoB[0], DoB[1], DoB[2]);
             UserProfile userProfile = new UserProfile(uid, firstName, lastName, address, phoneNumber, gender, dateOfBirth);
 
+            // CreateAccount
             String username = body.username;
             String password = body.password;
             String role = body.role;
 
-            // CreateAccount
             Account account = new Account(uid, username, password, role);
-
             return "Success";
         } else {
             return "Fail" + isValid;

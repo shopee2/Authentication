@@ -1,4 +1,4 @@
-package org.maimeemaineemaicode.Register.bean;
+package org.maimeemaineemaicode.register.bean;
 
 public class DateOfBirth {
     private String year;
