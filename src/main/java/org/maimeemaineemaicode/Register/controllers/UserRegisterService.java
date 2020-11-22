@@ -1,4 +1,4 @@
-package org.maimeemaineemaicode.register.controller;
+package org.maimeemaineemaicode.register.controllers;
 
 import org.maimeemaineemaicode.register.bean.Account;
 import org.maimeemaineemaicode.register.bean.DateOfBirth;

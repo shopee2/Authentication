@@ -1,7 +1,6 @@
-package org.maimeemaineemaicode.register.controller;
+package org.maimeemaineemaicode.register.controllers;
 
 import org.maimeemaineemaicode.register.bean.Account;
-import org.maimeemaineemaicode.register.bean.DateOfBirth;
 import org.maimeemaineemaicode.register.bean.SaleProfile;
 import org.maimeemaineemaicode.register.bean.SaleRegisterBody;
 import org.springframework.http.MediaType;
