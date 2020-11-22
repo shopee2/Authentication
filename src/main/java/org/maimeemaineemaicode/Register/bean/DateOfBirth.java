@@ -5,6 +5,12 @@ public class DateOfBirth {
     private String month;
     private String date;
 
+    public DateOfBirth(String year, String month, String date) {
+        this.year = year;
+        this.month = month;
+        this.date = date;
+    }
+
     public String getYear() {
         return year;
     }
