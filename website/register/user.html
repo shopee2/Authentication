@@ -37,31 +37,31 @@
     <div class="d-flex w-100 h-100 bg-shopee">
         <div class="bg-white w-50 h-auto m-auto justify-content-center p-4">
             <h6 class="mb-4">สมัครสมาชิก</h6>
-            <form>
+            <form name="form" onsubmit="return validateForm()">
                 <div class="form-group d-flex mb-3 w-100">
-                  <input type="text" class="form-control form-control-sm w-45 mx-auto" placeholder="ชื่อผู้ใช้" id="username">
-                  <select class="form-control form-control-sm w-45 mx-auto" id="gender">
-                        <option default>เพศ</option>
+                  <input required type="text" class="form-control form-control-sm w-45 mx-auto" placeholder="ชื่อผู้ใช้" id="username">
+                  <select required class="form-control form-control-sm w-45 mx-auto" id="gender">
+                        <option value="">เพศ</option>
                         <option value="male">ชาย</option>
                         <option value="female">หญิง</option>
                         <option value="other">อิ่นๆ</option>
                     </select>
                 </div>
                 <div class="form-group d-flex mb-3">
-                    <input type="password" class="form-control form-control-sm w-45 mx-auto" placeholder="รหัสผ่าน" id="password">
-                    <input type="password" class="form-control form-control-sm w-45 mx-auto" placeholder="ยืนยันรหัสผ่าน" id="cPassword">
+                    <input required type="password" class="form-control form-control-sm w-45 mx-auto" placeholder="รหัสผ่าน" id="password">
+                    <input required type="password" class="form-control form-control-sm w-45 mx-auto" placeholder="ยืนยันรหัสผ่าน" id="cPassword">
                 </div>
                 <div class="form-inline mb-3">
-                  <input type="text" class="form-control  form-control-sm w-45 mx-auto" placeholder="ชื่อจริง" id="firstName">
-                  <input type="text" class="form-control  form-control-sm w-45 mx-auto" placeholder="นามสกุล" id="lastName">
+                  <input required type="text" class="form-control  form-control-sm w-45 mx-auto" placeholder="ชื่อจริง" id="firstName">
+                  <input required type="text" class="form-control  form-control-sm w-45 mx-auto" placeholder="นามสกุล" id="lastName">
                 </div>
 
                 <div class="form-inline mb-3">
-                    <input type="date" class="form-control form-control-sm w-45 mx-auto"  id="dateOfBirth">
-                    <input type="text" class="form-control form-control-sm w-45 mx-auto" placeholder="เบอร์โทรศัพท์" id="phoneNumber">
+                    <input required type="date" class="form-control form-control-sm w-45 mx-auto"  id="dateOfBirth">
+                    <input required type="text" class="form-control form-control-sm w-45 mx-auto" placeholder="เบอร์โทรศัพท์" id="phoneNumber">
                 </div>
                 <div class="form-group mb-3">
-                    <input type="text" class="form-control form-control-sm w-95 mx-auto" placeholder="ที่อยู่" id="address">
+                    <input required type="text" class="form-control form-control-sm w-95 mx-auto" placeholder="ที่อยู่" id="address">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-sm bg-shopee text-white form-control  form-control-sm">สมัครสมาชิก</button> 
@@ -70,7 +70,18 @@
               </form>
         </div>
     </div>
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script>
+      function validateForm() {
+        let form = document.forms["form"];
+        if (form['password'] != form['cPassword']){
+          alert("รหัสผ่านทั้งสองตัวต้องตรงกัน");
+          form['password'].value = '';
+          form['cPassword'].value = '';
+          return false;
+        }
+      }
+    </script>
 </body>
 </html>
