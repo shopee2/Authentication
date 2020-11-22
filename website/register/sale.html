@@ -29,23 +29,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" disabled>สมัครสมาชิก <span class="sr-only"></span></a>
+              <a class="nav-link" disabled>สมัครบัญชีร้านค้า <span class="sr-only"></span></a>
             </li>
           </ul>
         </div>
     </nav>
     <div class="d-flex w-100 h-100 bg-shopee">
         <div class="bg-white w-50 h-auto m-auto justify-content-center p-4">
-            <h6 class="mb-4">สมัครสมาชิก</h6>
+            <h6 class="mb-4">สมัครบัญชีร้านค้า</h6>
             <form>
                 <div class="form-group d-flex mb-3 w-100">
                   <input type="text" class="form-control form-control-sm w-45 mx-auto" placeholder="ชื่อผู้ใช้" id="username">
-                  <select class="form-control form-control-sm w-45 mx-auto" id="gender">
-                        <option default>เพศ</option>
-                        <option value="male">ชาย</option>
-                        <option value="female">หญิง</option>
-                        <option value="other">อิ่นๆ</option>
-                    </select>
+                  <input type="text" class="form-control form-control-sm w-45 mx-auto" placeholder="เบอร์โทรศัพท์" id="phoneNumber">
                 </div>
                 <div class="form-group d-flex mb-3">
                     <input type="password" class="form-control form-control-sm w-45 mx-auto" placeholder="รหัสผ่าน" id="password">
@@ -55,13 +50,18 @@
                   <input type="text" class="form-control  form-control-sm w-45 mx-auto" placeholder="ชื่อจริง" id="firstName">
                   <input type="text" class="form-control  form-control-sm w-45 mx-auto" placeholder="นามสกุล" id="lastName">
                 </div>
-
-                <div class="form-inline mb-3">
-                    <input type="date" class="form-control form-control-sm w-45 mx-auto"  id="dateOfBirth">
-                    <input type="text" class="form-control form-control-sm w-45 mx-auto" placeholder="เบอร์โทรศัพท์" id="phoneNumber">
-                </div>
                 <div class="form-group mb-3">
                     <input type="text" class="form-control form-control-sm w-95 mx-auto" placeholder="ที่อยู่" id="address">
+                </div>
+                <div class="form-group d-flex  mb-3">
+                    <input type="text" class="form-control form-control-sm w-95 mx-auto" placeholder="อีเมล" id="email">
+                </div>
+                <div class="form-group d-flex mb-3">
+                    <input type="text" class="form-control form-control-sm w-45 mx-auto" placeholder="ชื่อร้านค้า" id="shopName">
+                    <input type="text" class="form-control form-control-sm w-45 mx-auto" placeholder="ประเภทร้านค่า" id="shopType">
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" class="form-control form-control-sm w-95 mx-auto" placeholder="รายละเอียดร้านค้า" id="detail">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-sm bg-shopee text-white form-control  form-control-sm">สมัครสมาชิก</button> 
