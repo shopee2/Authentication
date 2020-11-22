@@ -1,27 +1,28 @@
-package org.maimeemaineemaicode.Register.controller;
+package org.maimeemaineemaicode.Register.Controller;
 
-import java.util.*;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.maimeemaineemaicode.Register.bean.Account;
+import org.maimeemaineemaicode.Register.bean.DateOfBirth;
+import org.maimeemaineemaicode.Register.bean.UserProfile;
+import org.maimeemaineemaicode.Register.bean.UserRegisterBody;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.json.simple.JSONObject;
 
-@SpringBootApplication
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
-public class UserRegisterService extends UserProfile {
-    public static void main(String[] args) {
-        SpringApplication.run(SpringBootService.class, args);
+@RequestMapping("/register")
+public class UserRegisterService {
+    @RequestMapping(value="/test", method = RequestMethod.GET)
+    public String test() {
+        return "test";
     }
 
-    @RequestMapping(value="/register/user/", method = RequestMethod.POST)
-    public String requestMethod(@RequestBody body) {
+    @RequestMapping(value="/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String requestMethod(@RequestBody UserRegisterBody body) {
         String isValid = validate(body);
         if (isValid == "Success") {
             String firstName = body.firstName;
@@ -29,18 +30,22 @@ public class UserRegisterService extends UserProfile {
             String address = body.address;
             String phoneNumber = body.phoneNumber;
             String gender = body.gender;
-            String DoB = body.dateOfBirth.split("-");
+            String[] DoB = body.dateOfBirth.split("-");
 
-//            CreateUserProfile
-            DateOfBirth DoB = new DateOfBirth(DoB[0], DoB[1], DoB[2]);
-            UserProfile = new UserProfile(uid, firstName, lastName, address, phoneNumber, gender, DoB);
+            // to-do: uid
+            // auto increment and change datatype to integer
+            String uid = "1";
+
+            // CreateUserProfile
+            DateOfBirth dateOfBirth = new DateOfBirth(DoB[0], DoB[1], DoB[2]);
+            UserProfile userProfile = new UserProfile(uid, firstName, lastName, address, phoneNumber, gender, dateOfBirth);
 
             String username = body.username;
             String password = body.password;
             String role = body.role;
 
-//            CreateAccount
-            Account = new Account(uid, username, password, role);
+            // CreateAccount
+            Account account = new Account(uid, username, password, role);
 
             return "Success";
         } else {
@@ -48,7 +53,7 @@ public class UserRegisterService extends UserProfile {
         }
     }
 
-    private String validate(RequestBody body) {
+    private String validate(UserRegisterBody body) {
         String username = body.username;
         String password = body.password;
         String role = body.role;
@@ -57,7 +62,7 @@ public class UserRegisterService extends UserProfile {
         String address = body.address;
         String phoneNumber = body.phoneNumber;
         String gender = body.gender;
-        String DoB = body.dateOfBirth.split("-");
+        String[] DoB = body.dateOfBirth.split("-");
 
         if (username.length() <= 5) {
             return "Username length > 5";
@@ -65,7 +70,11 @@ public class UserRegisterService extends UserProfile {
         if (password.length() <= 5) {
             return "Password length > 5";
         }
-        if (!["Customer", "Sale"].contains(role)) {
+
+        List<String> availableRole = new ArrayList<String>();
+        availableRole.add("Customer");
+        availableRole.add("Sale");
+        if (!availableRole.contains(role)) {
             return "Role not in available";
         }
         if (firstName.length() <= 5 && firstName instanceof String) {
@@ -80,7 +89,13 @@ public class UserRegisterService extends UserProfile {
         if (phoneNumber.length() <= 10) {
             return "Address length > 10";
         }
-        if (!["male", "female", "other"].contains(gender) {
+
+        List<String> availableGender = new ArrayList<String>();
+        availableGender.add("male");
+        availableGender.add("female");
+        availableGender.add("other");
+
+        if (!availableGender.contains(gender)) {
             return "Gender not in available";
         }
         if (DoB[0].length() == 4 && (Integer.parseInt(DoB[1]) >= 1 && Integer.parseInt(DoB[1]) <= 12) &&
