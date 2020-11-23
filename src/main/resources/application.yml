@@ -7,6 +7,17 @@ spring:
 #  cloud:
 #    config:
 #      enabled: true
+    jpa:
+      hibernate:
+        ddl-auto: create
+
+    datasource:
+      url: jdbc:sqlserver://sop2020-auth.database.windows.net:1433;database=sop202-auth-db
+      username: gottemdd@sop2020-auth
+      password: P@ssw0rd
+    # encrypt=: true
+    # trustServerCertificate: false
+    # hostNameInCertificate: *.database.windows.net;loginTimeout=30
 
 #eureka:
 #  instance:

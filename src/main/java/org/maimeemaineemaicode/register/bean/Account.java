@@ -1,6 +1,11 @@
 package org.maimeemaineemaicode.register.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Account {
+    @Id
     private String userID;
     private String username;
     private String password;

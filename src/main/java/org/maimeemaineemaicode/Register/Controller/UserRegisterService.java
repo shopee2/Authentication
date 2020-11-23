@@ -4,18 +4,21 @@ import org.maimeemaineemaicode.register.bean.Account;
 import org.maimeemaineemaicode.register.bean.DateOfBirth;
 import org.maimeemaineemaicode.register.bean.UserProfile;
 import org.maimeemaineemaicode.register.bean.UserRegisterBody;
+import org.maimeemaineemaicode.register.bean.AccountRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/register")
 public class UserRegisterService {
-
+    @Autowired
+    private AccountRepository accountRepository;
     @RequestMapping(value="/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public String requestMethod(@RequestBody UserRegisterBody body) {
         String isValid = validate(body);
@@ -29,7 +32,7 @@ public class UserRegisterService {
 
             // to-do: uid
             // auto increment and change datatype to integer
-            String uid = "1";
+            String uid = "00000001";
 
             // CreateUserProfile
             DateOfBirth dateOfBirth = new DateOfBirth(DoB[0], DoB[1], DoB[2]);
@@ -41,6 +44,7 @@ public class UserRegisterService {
             String role = "Customer";
 
             Account account = new Account(uid, username, password, role);
+            accountRepository.save(account);
 
             return "เสร็จสิ้น";
         } else {
