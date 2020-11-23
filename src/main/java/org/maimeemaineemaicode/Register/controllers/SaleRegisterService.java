@@ -98,19 +98,14 @@ public class SaleRegisterService {
         else if (lastName.length() == 0) {
             return "ชื่อจริงไม่สามารถเว้นว่างได้";
         }
-        if (email.matches(regex)) {
-            return "อีเมลไม่ถูกต้อง";
-        }
         if (address.length() < 2 || address.length() > 200) 
             return "ที่อยู่ต้องมีอักขระ 35 ตัวหรือน้อยกว่า";
         else if (address == "")
              return "ที่อยู่ไม่สามารถเว้นว่างได้";
-        if (phoneNumber.length() != 10 || phoneNumber.length() != 9) {
-            return "เบอร์โทรศัพท์ต้องมีจำนวน 9 หรือ 10 ตัว";
-        }
-        else if (phoneNumber.length() == 0){
-            return "เบอร์โทรศัพท์ไม่สามารถเว้นว่างได้";
-        }
+        if (phoneNumber.length() < 9 || phoneNumber.length() > 10) 
+            return "เบอร์โทรศัพท์ต้องมีตัวเลข 9 หรือ 10 ตัว";
+        else if (phoneNumber == "") 
+            return "เบอร์โทรไม่สามารถเว้นว่างได้";
         if (shopName.length() <= 5) {
             return "ชื่อร้านค้าควรยาวกว่า 5 ตัวอักษร";
         }
@@ -120,6 +115,6 @@ public class SaleRegisterService {
         if (shopType.length() <= 1) {
             return "ประเภทร้านค้าไม่ถูกต้อง";
         }
-        return "สำเร็จ";
+        return "Success";
     }
 }
