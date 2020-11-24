@@ -1,24 +1,27 @@
 package org.maimeemaineemaicode.register.controllers;
 
-import org.maimeemaineemaicode.register.bean.Account;
+import org.maimeemaineemaicode.register.model.Account;
 import org.maimeemaineemaicode.register.bean.DateOfBirth;
 import org.maimeemaineemaicode.register.bean.UserProfile;
 import org.maimeemaineemaicode.register.bean.UserRegisterBody;
-import org.maimeemaineemaicode.register.bean.AccountRepository;
+//import org.maimeemaineemaicode.register.repository.AccountRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/register")
 public class UserRegisterService {
-    @Autowired
-    private AccountRepository accountRepository;
+//    @Autowired
+//    private AccountRepository accountRepository;
     @RequestMapping(value="/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public String requestMethod(@RequestBody UserRegisterBody body) {
         String isValid = validate(body);
@@ -44,11 +47,11 @@ public class UserRegisterService {
             String role = "Customer";
 
             Account account = new Account(uid, username, password, role);
-            accountRepository.save(account);
+//            accountRepository.save(account);
 
             return "เสร็จสิ้น";
         } else {
-            return "เกิดข้อผิดพลาด: " + isValid;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "เกิดข้อผิดพลาด: " + isValid);
         }
     }
 

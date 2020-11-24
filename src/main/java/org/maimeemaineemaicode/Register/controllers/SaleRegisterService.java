@@ -1,13 +1,16 @@
 package org.maimeemaineemaicode.register.controllers;
 
-import org.maimeemaineemaicode.register.bean.Account;
+import org.maimeemaineemaicode.register.model.Account;
 import org.maimeemaineemaicode.register.bean.SaleProfile;
 import org.maimeemaineemaicode.register.bean.SaleRegisterBody;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +45,7 @@ public class SaleRegisterService {
             Account account = new Account(uid, username, password, role);
             return "เสร็จสิ้น";
         } else {
-            return "เกิดข้อผิดพลาด:  " + isValid;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "เกิดข้อผิดพลาด: " + isValid);
         }
     }
 
