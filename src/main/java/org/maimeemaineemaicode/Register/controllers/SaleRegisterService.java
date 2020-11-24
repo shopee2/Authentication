@@ -5,6 +5,7 @@ import org.maimeemaineemaicode.register.bean.SaleProfile;
 import org.maimeemaineemaicode.register.bean.SaleRegisterBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +20,7 @@ import java.util.List;
 public class SaleRegisterService {
 
     @RequestMapping(value="/sale", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String requestMethod(@RequestBody SaleRegisterBody body) {
+    public ResponseEntity requestMethod(@RequestBody SaleRegisterBody body) {
         String isValid = validate(body);
         if (isValid == "Success") {
             String firstName = body.firstName;
@@ -43,9 +44,10 @@ public class SaleRegisterService {
             String role = "Sale";
 
             Account account = new Account(uid, username, password, role);
-            return "เสร็จสิ้น";
+            return new ResponseEntity("เสร็จสิ้น", HttpStatus.OK);
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "เกิดข้อผิดพลาด: " + isValid);
+//            return "เกิดข้อผิดพลาด "+isValid;
+            return new ResponseEntity("เกิดข้อผิดพลาด " + isValid, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -83,32 +85,22 @@ public class SaleRegisterService {
         if (!availableRole.contains(role)) {
             return "Role not in available";
         }
-        if (firstName.length() <= 2 && firstName instanceof String) {
+        if (firstName.length() <= 2) {
             return "ชื่อจริงใช้ต้องมีอักขระไม่ต่ำกว่า 2 ตัวอักษร";
         }
-        else if (firstName.length() >= 35 && firstName instanceof String) {
+        else if (firstName.length() >= 35) {
             return "ชื่อต้องมีอักขระ 35 ตัวหรือน้อยกว่า";
         }
-        else if (firstName.length() == 0) {
-            return "ชื่อจริงไม่สามารถเว้นว่างได้";
-        }
-        if (lastName.length() <= 2 && firstName instanceof String) {
+        if (lastName.length() <= 2) {
             return "ชื่อจริงใช้ต้องมีอักขระไม่ต่ำกว่า 2 ตัวอักษร";
         }
-        else if (lastName.length() >= 35 && firstName instanceof String) {
+        else if (lastName.length() >= 35) {
             return "ชื่อต้องมีอักขระ 35 ตัวหรือน้อยกว่า";
-        }
-        else if (lastName.length() == 0) {
-            return "ชื่อจริงไม่สามารถเว้นว่างได้";
         }
         if (address.length() < 2 || address.length() > 200) 
             return "ที่อยู่ต้องมีอักขระ 35 ตัวหรือน้อยกว่า";
-        else if (address == "")
-             return "ที่อยู่ไม่สามารถเว้นว่างได้";
         if (phoneNumber.length() < 9 || phoneNumber.length() > 10) 
             return "เบอร์โทรศัพท์ต้องมีตัวเลข 9 หรือ 10 ตัว";
-        else if (phoneNumber == "") 
-            return "เบอร์โทรไม่สามารถเว้นว่างได้";
         if (shopName.length() <= 5) {
             return "ชื่อร้านค้าควรยาวกว่า 5 ตัวอักษร";
         }

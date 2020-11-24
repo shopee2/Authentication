@@ -7,12 +7,11 @@ import org.maimeemaineemaicode.register.bean.UserRegisterBody;
 //import org.maimeemaineemaicode.register.repository.AccountRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class UserRegisterService {
 //    @Autowired
 //    private AccountRepository accountRepository;
     @RequestMapping(value="/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String requestMethod(@RequestBody UserRegisterBody body) {
+    public ResponseEntity requestMethod(@RequestBody UserRegisterBody body) {
         String isValid = validate(body);
         if (isValid == "Success") {
             String firstName = body.firstName;
@@ -49,9 +48,10 @@ public class UserRegisterService {
             Account account = new Account(uid, username, password, role);
 //            accountRepository.save(account);
 
-            return "เสร็จสิ้น";
+            return new ResponseEntity("เสร็จสิ้น", HttpStatus.OK);
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "เกิดข้อผิดพลาด: " + isValid);
+//            return "เกิดข้อผิดพลาด "+isValid;
+            return new ResponseEntity("เกิดข้อผิดพลาด " + isValid, HttpStatus.BAD_REQUEST);
         }
     }
 
