@@ -96,72 +96,60 @@ definitions:
   UserRegisterService:
     type: object
     properties:
-      Account:
+      username:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      dateOfBirth:
         type: object
         properties:
-          username:
+          year:
             type: string
-          password:
+          month:
             type: string
-          role:
+          date:
             type: string
-      UserProfile:
-        type: object
-        properties:
-          firstName:
-            type: string
-          lastName:
-            type: string
-          dateOfBirth:
-            type: object
-            properties:
-              year:
-                type: string
-              month:
-                type: string
-              date:
-                type: string
-          address:
-            type: string
-          phoneNumber:
-            type: string
-          gender:
-            type: string
-            enum:
-            - "male"
-            - "female"
-            - "other"
+      address:
+        type: string
+      phoneNumber:
+        type: string
+      gender:
+        type: string
+        enum:
+        - "male"
+        - "female"
+        - "other"
   SaleRegisterService:
     type: object
     properties:
-      Account:
-        type: object
-        properties:
-          username:
-            type: string
-          password:
-            type: string
-          role:
-            type: string
-      SaleProfile:
-        type: object
-        properties:
-          firstName:
-            type: string
-          lastName:
-            type: string
-          email:
-            type: string
-          address:
-            type: string
-          phoneNumber:
-            type: string
-          shopName:
-            type: string
-          detail:
-            type: string
-          shopType:
-            type: string
+      username:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      address:
+        type: string
+      phoneNumber:
+        type: string
+      shopName:
+        type: string
+      detail:
+        type: string
+      shopType:
+        type: string
   LoginPage:
     type: object
     properties:
