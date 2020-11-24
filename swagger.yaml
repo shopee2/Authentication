@@ -20,12 +20,10 @@ paths:
         description: user profile object that want to send to User Management
         required: true
         schema:
-          $ref: '#/definitions/UserProfile'
+          $ref: '#/definitions/UserRegisterService'
       responses:
         200:
           description: OK
-          schema:
-            $ref: '#/definitions/isSuccess'
         400:
           description: invalid input
           schema:
@@ -43,7 +41,28 @@ paths:
         description: sale profile object that want to send to Sale Management
         required: true
         schema:
-           $ref: '#/definitions/SaleProfile'
+           $ref: '#/definitions/SaleRegisterService'
+      responses:
+        200:
+          description: OK
+        400:
+          description: invalid input
+          schema:
+            $ref: '#/definitions/isFailed'
+  /login:
+    post:
+      summary: login user
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: "body"
+        name: "body"
+        description: login user
+        required: true
+        schema:
+           $ref: '#/definitions/LoginPage'
       responses:
         200:
           description: OK
@@ -53,18 +72,40 @@ paths:
           description: invalid input
           schema:
             $ref: '#/definitions/isFailed'
-          
+  /validateUser/{token}:
+    get:
+      summary: validate user
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: token
+        description: validate user
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Validate'
+        400:
+          description: invalid token
 definitions:
-  UserProfile:
+  UserRegisterService:
     type: object
     properties:
-      username:
-        type: string
-      password:
-        type: string
-      role:
-        type: string
-      profile:
+      Account:
+        type: object
+        properties:
+          username:
+            type: string
+          password:
+            type: string
+          role:
+            type: string
+      UserProfile:
         type: object
         properties:
           firstName:
@@ -78,7 +119,7 @@ definitions:
                 type: string
               month:
                 type: string
-              day:
+              date:
                 type: string
           address:
             type: string
@@ -90,16 +131,19 @@ definitions:
             - "male"
             - "female"
             - "other"
-  SaleProfile:
+  SaleRegisterService:
     type: object
     properties:
-      username:
-        type: string
-      password:
-        type: string
-      role:
-        type: string
-      profile:
+      Account:
+        type: object
+        properties:
+          username:
+            type: string
+          password:
+            type: string
+          role:
+            type: string
+      SaleProfile:
         type: object
         properties:
           firstName:
@@ -118,6 +162,13 @@ definitions:
             type: string
           shopType:
             type: string
+  LoginPage:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
   isSuccess:
     type: object
     properties:
@@ -127,6 +178,13 @@ definitions:
     type: object
     properties:
       message:
+        type: string
+  Validate:
+    type: object
+    properties:
+      uid:
+        type: string
+      role:
         type: string
 
 host: virtserver.swaggerhub.com
