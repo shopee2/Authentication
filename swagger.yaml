@@ -174,8 +174,6 @@ definitions:
     properties:
       token:
         type: string
-      role:
-        type: string
   isFailed:
     type: object
     properties:
