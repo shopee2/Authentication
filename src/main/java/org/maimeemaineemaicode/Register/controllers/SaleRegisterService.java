@@ -1,5 +1,6 @@
 package org.maimeemaineemaicode.register.controllers;
 
+import org.maimeemaineemaicode.register.bean.ErrorMessage;
 import org.maimeemaineemaicode.register.model.Account;
 import org.maimeemaineemaicode.register.bean.SaleProfile;
 import org.maimeemaineemaicode.register.bean.SaleRegisterBody;
@@ -47,7 +48,7 @@ public class SaleRegisterService {
             return new ResponseEntity("เสร็จสิ้น", HttpStatus.OK);
         } else {
 //            return "เกิดข้อผิดพลาด "+isValid;
-            return new ResponseEntity("เกิดข้อผิดพลาด " + isValid, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ErrorMessage("เกิดข้อผิดพลาด "+ isValid), HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -1,5 +1,6 @@
 package org.maimeemaineemaicode.register.controllers;
 
+import org.maimeemaineemaicode.register.bean.ErrorMessage;
 import org.maimeemaineemaicode.register.model.Account;
 import org.maimeemaineemaicode.register.bean.DateOfBirth;
 import org.maimeemaineemaicode.register.bean.UserProfile;
@@ -51,7 +52,7 @@ public class UserRegisterService {
             return new ResponseEntity("เสร็จสิ้น", HttpStatus.OK);
         } else {
 //            return "เกิดข้อผิดพลาด "+isValid;
-            return new ResponseEntity("เกิดข้อผิดพลาด " + isValid, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ErrorMessage("เกิดข้อผิดพลาด "+ isValid), HttpStatus.BAD_REQUEST);
         }
     }
 

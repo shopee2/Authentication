@@ -27,7 +27,7 @@ public class TokenService {
 
             return new ResponseEntity(new TokenValidateResponseBody(uid, role), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity("Bad request", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Invalid token", HttpStatus.BAD_REQUEST);
         }
     }
 }
