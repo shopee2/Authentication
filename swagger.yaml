@@ -72,7 +72,7 @@ paths:
           description: invalid input
           schema:
             $ref: '#/definitions/isFailed'
-  /validateUser/{token}:
+  /validate/{token}:
     get:
       summary: validate user
       consumes:
