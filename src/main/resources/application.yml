@@ -6,7 +6,7 @@ spring:
     name: authservice
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
   datasource:
     url: jdbc:sqlserver://sop2020-auth.database.windows.net:1433;database=sop202-auth-db;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
