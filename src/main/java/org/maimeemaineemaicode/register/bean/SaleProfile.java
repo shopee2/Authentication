@@ -1,7 +1,7 @@
 package org.maimeemaineemaicode.register.bean;
 
 public class SaleProfile {
-    private String sid;
+    private Long sid;
     private String firstName;
     private String lastName;
     private String email;
@@ -11,7 +11,7 @@ public class SaleProfile {
     private String detail;
     private String shopType;
 
-    public SaleProfile(String sid, String firstName, String lastName, String email, String address, String phoneNumber, String shopName,
+    public SaleProfile(Long sid, String firstName, String lastName, String email, String address, String phoneNumber, String shopName,
                        String detail, String shopType) {
         this.sid = sid;
         this.firstName = firstName;
@@ -24,11 +24,11 @@ public class SaleProfile {
         this.shopType = shopType;
     }
 
-    public String getSid() {
+    public Long getSid() {
         return sid;
     }
 
-    public void setSid(String sid) {
+    public void setSid(Long sid) {
         this.sid = sid;
     }
 

@@ -1,7 +1,7 @@
 package org.maimeemaineemaicode.register.bean;
 
 public class UserProfile {
-    private String uid;
+    private Long uid;
     private String firstName;
     private String lastName;
     private String address;
@@ -9,7 +9,7 @@ public class UserProfile {
     private String gender;
     private DateOfBirth dateOfBirth;
 
-    public UserProfile(String uid, String firstName, String lastName, String address, String phoneNumber, String gender,
+    public UserProfile(Long uid, String firstName, String lastName, String address, String phoneNumber, String gender,
                        DateOfBirth dateOfBirth) {
         this.uid = uid;
         this.firstName = firstName;
@@ -20,11 +20,11 @@ public class UserProfile {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getUid() {
+    public Long getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
 

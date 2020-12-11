@@ -10,8 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class App 
 {
 
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) {
         SpringApplication.run(App.class, args);
     }
 

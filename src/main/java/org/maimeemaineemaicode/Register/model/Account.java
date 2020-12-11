@@ -2,36 +2,39 @@ package org.maimeemaineemaicode.register.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class Account {
-//    @Id
-    private String userID;
-//    @Column(name="username")
+    @Id
+    @GeneratedValue
+    private Long userID;
+
+    @Column(name="username")
     private String username;
-//    @Column(name="password")
+
+    @Column(name="password")
     private String password;
-//    @Column(name="role")
+
+    @Column(name="role")
     private String role;
 
-    public Account() {}
-
-    public Account(Account account) {
-        this(account.getUserID(), account.getUserName(), account.getPassword(), account.getRole());
+    public Account() {
+        this("", "", "");
     }
 
-    public Account(String userID, String username, String password, String role) {
-        this.userID = userID;
+    public Account(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
-    public void setUserID(String userID) {
+
+    public void setUserID(Long userID) {
         this.userID = userID;
     }
 
-    public String getUserID() {
+    public Long getUserID() {
         return userID;
     }
 
@@ -58,4 +61,16 @@ public class Account {
     public String getRole() {
         return role;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Account)) {
+            return false;
+        }
+        return userID != null && userID.equals(((Account) o).getUserID());
+    }
+
 }
