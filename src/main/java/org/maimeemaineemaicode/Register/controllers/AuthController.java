@@ -1,54 +1,99 @@
 package org.maimeemaineemaicode.register.controllers;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.maimeemaineemaicode.register.bean.LoginBody;
-import org.maimeemaineemaicode.register.bean.TokenValidateResponseBody;
+import org.maimeemaineemaicode.register.bean.TokenBody;
 import org.maimeemaineemaicode.register.model.Account;
-import org.maimeemaineemaicode.register.model.Token;
 import org.maimeemaineemaicode.register.repository.AccountRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.SecretKey;
+import java.util.*;
+
+import static org.apache.commons.codec.digest.HmacUtils.hmacSha256;
+import static org.maimeemaineemaicode.register.model.Account.hashPassword;
+
 @RestController
 public class AuthController {
 
     private AccountRepository accountRepository;
+    private SecretKey secretKey;
+    Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     public AuthController(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
+        this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity login(@RequestBody LoginBody body) {
-        // validate login
         try {
-            if (body.username.equals("username") && body.password.equals("password")) {
-                Account account = new Account("username", "password", "Customer");
-                return new ResponseEntity(new Token(account), HttpStatus.OK);
-            } else {
-                return new ResponseEntity("ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง", HttpStatus.BAD_REQUEST);
+            // Find account by username
+            List<Account> accounts = accountRepository.findAccountByUsername(body.username);
+
+            // If account can be find
+            if (accounts.size() > 0) {
+                // Get account
+                Account account = accounts.get(0);
+                if (account.getPassword().equals(hashPassword(body.password))) {
+                    // Get current date
+                    Calendar c = Calendar.getInstance();
+                    // Set expire date
+                    c.add(Calendar.SECOND, 30);
+                    Date expireDate = c.getTime();
+
+                    // Create JWS token
+                    String jws = Jwts.builder()
+                            .claim("uid", account.getUserID())
+                            .claim("username", account.getUserName())
+                            .claim("role", account.getRole())
+                            .setExpiration(expireDate)
+                            .signWith(this.secretKey)
+                            .compact();
+
+                    // Response JWS token with 200 (OK) status
+                    return new ResponseEntity(new TokenBody("Bearer " + jws), HttpStatus.OK);
+                }
             }
+            // Response error with 400 (Bad Request) status
+            return new ResponseEntity("ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง", HttpStatus.BAD_REQUEST);
         }
         catch (Exception e) {
+            logger.warn(e.toString());
+
+            // Response error with 400 (Bad Request) status
             return new ResponseEntity("Bad request", HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/validate/{tokenBody}", method = RequestMethod.GET)
-    public ResponseEntity validateToken(@PathVariable String tokenBody) {
+    @RequestMapping(value = "/validate", method = RequestMethod.GET)
+    public ResponseEntity validateToken(@RequestHeader(value = "authorization") String authToken) {
         try {
-            Token token = new Token(tokenBody);
-            String decrypt = token.decrypt();
-            String[] accountPhase = decrypt.split(":");
+            if (authToken.startsWith("Bearer ")) {
+                authToken = authToken.replaceFirst("Bearer ", "");
 
-            String username = accountPhase[0];
-            String uid = accountPhase[1];
-            String role = accountPhase[2];
-
-            return new ResponseEntity(new TokenValidateResponseBody(uid, role), HttpStatus.OK);
+                Claims claims = Jwts.parserBuilder()
+                        .setSigningKey(this.secretKey)
+                        .build()
+                        .parseClaimsJws(authToken).getBody();
+                return new ResponseEntity(claims, HttpStatus.OK);
+            } else {
+                throw new SignatureException("Not a Bearer token");
+            }
+        } catch (SignatureException e) {
+          return new ResponseEntity("Invalid token", HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
-            return new ResponseEntity("Invalid token", HttpStatus.BAD_REQUEST);
+            logger.warn(e.toString());
+            return new ResponseEntity("Bad request", HttpStatus.BAD_REQUEST);
         }
     }
 }
