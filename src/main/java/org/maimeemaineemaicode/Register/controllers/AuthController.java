@@ -1,8 +1,6 @@
 package org.maimeemaineemaicode.register.controllers;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.maimeemaineemaicode.register.bean.LoginBody;
@@ -78,19 +76,29 @@ public class AuthController {
     @RequestMapping(value = "/validate", method = RequestMethod.GET)
     public ResponseEntity validateToken(@RequestHeader(value = "authorization") String authToken) {
         try {
+            // Check token is start with Bearer ?
             if (authToken.startsWith("Bearer ")) {
+                // Remove Bearer from token
                 authToken = authToken.replaceFirst("Bearer ", "");
 
+                // Check signature of token
                 Claims claims = Jwts.parserBuilder()
                         .setSigningKey(this.secretKey)
                         .build()
                         .parseClaimsJws(authToken).getBody();
+
+                // Response claims with 200 (OK) status
                 return new ResponseEntity(claims, HttpStatus.OK);
             } else {
+                // Invalid token
                 throw new SignatureException("Not a Bearer token");
             }
+        } catch (ExpiredJwtException e) {
+            // Response token expired error with 401 (Unauthorized) status
+            return new ResponseEntity("Token expired", HttpStatus.UNAUTHORIZED);
         } catch (SignatureException e) {
-          return new ResponseEntity("Invalid token", HttpStatus.UNAUTHORIZED);
+            // Response token error with 401 (Unauthorized) status
+            return new ResponseEntity("Invalid token", HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             logger.warn(e.toString());
             return new ResponseEntity("Bad request", HttpStatus.BAD_REQUEST);
