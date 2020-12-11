@@ -1,9 +1,10 @@
 package org.maimeemaineemaicode.register.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.sun.xml.bind.v2.runtime.output.Encoded;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Value;
+
+import javax.persistence.*;
 
 @Entity
 public class Account {
@@ -11,10 +12,11 @@ public class Account {
     @GeneratedValue
     private Long userID;
 
-    @Column(name="username")
+    @Column(name="username", unique = true)
     private String username;
 
-    @Column(name="password")
+
+    @Column(name="password", length=512, columnDefinition="TEXT")
     private String password;
 
     @Column(name="role")
@@ -26,7 +28,7 @@ public class Account {
 
     public Account(String username, String password, String role) {
         this.username = username;
-        this.password = password;
+        this.password = hashPassword(password);
         this.role = role;
     }
 
@@ -47,7 +49,7 @@ public class Account {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = hashPassword(password);
     }
 
     public String getPassword() {
@@ -60,6 +62,11 @@ public class Account {
 
     public String getRole() {
         return role;
+    }
+
+    public static String hashPassword(String password) {
+        String salt = "c2FsdGFuZHNhbHRzYW5kYW1vcmVzYWx0c3k=";
+        return DigestUtils.sha256Hex(password + salt);
     }
 
     @Override
